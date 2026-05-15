@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotels - TravelMate</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2>TravelMate ✈️</h2>
+    <div>
+        <a href="/">Home</a>
+        <a href="/destinations">Destinations</a>
+    </div>
+</div>
+
+<!-- PAGE WRAPPER -->
+<div class="results-wrapper">
+
+    <h1 class="page-title">Available Hotels 🏨</h1>
+
+    <div class="hotel-container">
+
+        {% for hotel in hotels %}
+        <div class="hotel-card">
+
+            <h2>{{ hotel.name }}</h2>
+            <p>📍 {{ hotel.city }}</p>
+            <p>⭐ Rating: {{ hotel.rating }}</p>
+            <p>💰 Rs {{ hotel.price_per_night }} / night</p>
+
+            <!-- FAVOURITE BUTTON -->
+            <form action="/favourite" method="POST">
+                <input type="hidden" name="hotel_id" value="{{ hotel.hotel_id }}">
+                <button type="submit">❤️ Add to Favourites</button>
+            </form>
+
+            <!-- OPTIONAL: VIEW DETAILS -->
+            <a href="/hotel/{{ hotel.hotel_id }}">View Details</a>
+
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

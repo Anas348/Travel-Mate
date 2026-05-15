@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Destinations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <div class="nav-left"></div>
+
+    <div class="nav-center"></div>
+
+    <div class="nav-right">
+        <a href="/login">Login</a>
+        <a href="/">Home</a>
+        <a href="/destinations">Destinations</a>
+    </div>
+</div>
+
+<div class="container">
+    <h1>Explore Destinations 🍁</h1>
+
+    {% for d in destinations %}
+    <div class="card">
+        <h2>{{ d.name }}</h2>
+        <p><b>{{ d.city }}</b></p>
+        <p>{{ d.description }}</p>
+        <p><b>Tips:</b> {{ d.travel_tips }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>

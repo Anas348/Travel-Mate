@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TravelMate</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="nav-left"></div>
+
+    <div class="nav-center"></div>
+
+    <div class="nav-right">
+        <a href="/login">Login</a>s
+        <a href="/">Home</a>
+        <a href="/destinations">Destinations</a>
+    </div>
+</div>
+
+<!-- HERO SECTION -->
+<div class="hero">
+    <div class="hero-overlay">
+        <h1 class="hero-title">TravelMate ✈️</h1>
+<p class="hero-sub">Your journey begins here</p>
+        <p>Find your next dreamy destination</p>
+        <a href="#search-section" class="scroll-btn">Start Exploring ↓</a>
+    </div>
+</div>
+
+<!-- SEARCH SECTION -->
+<div id="search-section" class="search-section">
+    <div class="search-card">
+        <h2>Find Your Stay ✈️</h2>
+
+        <form action="/hotels">
+            <input type="text" name="city" placeholder="Enter City">
+            <input type="number" name="price" placeholder="Max Price">
+            <input type="number" name="rating" placeholder="Min Rating (1-5)">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

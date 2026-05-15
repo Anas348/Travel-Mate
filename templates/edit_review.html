@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Review</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Edit Review ✏️</h1>
+
+    <form method="POST" class="review-form">
+
+        <input 
+            type="number" 
+            name="rating"
+            min="1"
+            max="5"
+            value="{{ review.rating }}"
+            required
+        >
+
+        <textarea 
+            name="comment"
+            required
+        >{{ review.comment }}</textarea>
+
+        <input 
+            type="hidden"
+            name="redirect_url"
+            value="{{ request.referrer }}"
+        >
+
+        <button type="submit">
+            Update Review
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

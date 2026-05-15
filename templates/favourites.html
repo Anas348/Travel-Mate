@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Favourites</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <div class="nav-right">
+        <a href="/">Home</a>
+        <a href="/destinations">Destinations</a>
+        <a href="/favourites">Favourites ❤️</a>
+    </div>
+</div>
+
+<div class="results-wrapper">
+
+    <h1 class="page-title">My Favourite Hotels ❤️</h1>
+
+    <div class="hotel-container">
+
+        {% if hotels %}
+            {% for hotel in hotels %}
+            <div class="hotel-card">
+
+                <h2>{{ hotel.name }}</h2>
+                <p>📍 {{ hotel.city }}</p>
+                <p>⭐ {{ hotel.rating }}</p>
+                <p>💰 Rs {{ hotel.price_per_night }}</p>
+<form action="/remove_favourite/{{ hotel.hotel_id }}" method="POST">
+    <button type="submit" class="remove-btn">
+        Remove ❌
+    </button>
+</form>
+                <a href="/hotel/{{ hotel.hotel_id }}" class="view-btn">
+                    View Details
+                </a>
+
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No favourites yet 😔</p>
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
