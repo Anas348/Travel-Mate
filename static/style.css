@@ -58,7 +58,7 @@ body{
 button, .btn{
     padding:10px 15px;
     background-color:#8b4513; /* chocolate brown */
-    color:white;
+    color:rgba(255, 255, 255, 0.897);
     border:none;
     border-radius:8px;
     cursor:pointer;
@@ -72,7 +72,7 @@ button:hover, .btn:hover{
 
 /* CARDS */
 .card{
-    background:white;
+    background:rgba(255, 255, 255, 0.918);
     padding:20px;
     margin:15px 0;
     border-radius:15px;
