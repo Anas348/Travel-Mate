@@ -1,86 +1,156 @@
 # 🏨 Smart Travel & Destination Guide System
 
 ## 📌 Group Number
-17
+**17**
 
 ---
 
 ## 👥 Group Members
-- Anas Malik (24P-0652)
-- Manahil Fatima (24P-0527)
-- Asawir Binte Asif (24P-0576)
+- **Anas Malik** (24P-0652)
+- **Manahil Fatima** (24P-0527)
+- **Asawir Binte Asif** (24P-0576)
 
 ---
 
 ## 📖 Project Title
-Smart Hotel and Destination Guide System
+**Smart Travel & Destination Guide System**
 
 ---
 
 ## 🧠 Project Description
-A web-based hotel and travel guide system that helps users search hotels, view details, explore nearby attractions, and manage favourite hotels. The system is built using Flask, MySQL, HTML, and CSS.
+Smart Travel & Destination Guide System is a web-based travel platform that helps users search hotels, explore destinations, view nearby attractions, and manage travel information efficiently.
 
-It improves travel planning by centralizing hotel and destination information in one platform.
-
----
-
-## Key Features
-Key features include:
-
-Compare Accommodation Options: Find the best hotels that fit your preferences and budget.
-
-Discover Destinations: Get detailed insights into popular travel spots.
-
-Explore Local Attractions: Learn about nearby tourist sites to enhance your trip experience.
-
-Enhanced Travel Planning: Plan your stays efficiently with all the necessary information at your fingertips.
-
-Support Local Tourism: Helps hotels reach potential customers and promotes local attractions.
+The system centralizes hotel and tourism information in one place to improve travel planning and user convenience.
 
 ---
 
-## 🔗 GitHub Repository
-(Your repo link here)
+## ✨ Key Features
+
+- 🔍 Search hotels by city, budget, and ratings
+- 🏨 View hotel details and room information
+- 📍 Explore nearby tourist attractions
+- ⭐ Read hotel ratings and reviews
+- ❤️ Manage favourite destinations and hotels
+- 🌍 Support and promote local tourism
 
 ---
 
 ## 🛠️ Technologies Used
-- Flask (Python Backend)
-- MySQL (Database)
-- HTML5
-- CSS3
-- Jinja2
-- Git & GitHub
+
+- **Frontend:** HTML5, CSS3, Jinja2
+- **Backend:** Flask (Python)
+- **Database:** MySQL
+- **Version Control:** Git & GitHub
 
 ---
 
-## ⚙️ How to Run
+## ⚙️ Database Setup
 
-1. Clone repository  
-git clone YOUR_REPO_LINK
+Import the SQL database file:
 
-2. Enter project folder  
-cd travel-mate
+```bash
+mysql -u username < project_sql.sql
+```
 
-3. Create virtual environment  
-python -m venv venv  
+Example:
 
-4. Activate environment  
-- Linux/Mac: source venv/bin/activate  
-- Windows: venv\Scripts\activate  
+```bash
+mysql -u root -p < project_sql.sql
+```
 
-5. Install dependencies  
-pip install flask mysql-connector-python  
+---
 
-6. Run app  
-python app.py  
+## 🚀 How to Run the Project
 
-7. Open browser  
+### 1️⃣ Clone Repository
+
+```bash
+git clone https://github.com/Anas348/Travel-Mate.git
+```
+
+### 2️⃣ Enter Project Folder
+
+```bash
+cd Travel-Mate
+```
+
+### 3️⃣ Create Virtual Environment
+
+```bash
+python3 -m venv venv
+```
+
+### 4️⃣ Activate Virtual Environment
+
+#### Linux/Mac
+
+```bash
+source venv/bin/activate
+```
+
+#### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+### 5️⃣ Install Required Packages
+
+```bash
+pip install flask mysql-connector-python
+```
+
+### 6️⃣ Run Flask Application
+
+```bash
+python3 app.py
+```
+
+### 7️⃣ Open in Browser
+
+```text
 http://127.0.0.1:5000
+```
 
 ---
 
-## 👨‍💻 Contribution
-- Backend (Flask + MySQL queries)
-- Frontend (HTML pages)
-- Styling (CSS design)
+## 📂 Database Tables
+
+- Users
+- Hotel
+- Room
+- Favourite
+- Review
+- Attraction
+- Destination
+- Amenity
+- hotel_facility
+
+---
+
+## 👨‍💻 Contributions
+
+### Backend Development
+- Flask routing
+- MySQL queries
+- Database integration
+
+### Frontend Development
+- HTML templates
+- Dynamic Jinja rendering
+
+### Styling
+- CSS design and responsiveness
+
+### Database
+- Database schema
+- Sample dataset creation
+
+---
+
+## 🔗 GitHub Repository
+
+https://github.com/Anas348/Travel-Mate
+
+---
+
