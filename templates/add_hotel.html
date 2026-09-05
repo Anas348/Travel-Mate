@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Add a hotel — TravelMate{% endblock %}
+
+{% block content %}
+<section class="section container form-page" style="padding-top:2.5rem;">
+  <h1 style="font-size:1.9rem;">List a hotel</h1>
+  <p class="text-muted" style="margin-bottom:1.6rem;">Anyone with a TravelMate account can add a hotel — it appears in search right away.</p>
+
+  <div class="form-card">
+    <form method="POST">
+      <div class="form-grid">
+        <div class="field field-full">
+          <label for="name">Hotel name</label>
+          <input id="name" type="text" name="name" value="{{ form.name or '' }}" required>
+        </div>
+        <div class="field">
+          <label for="city">City</label>
+          <input id="city" type="text" name="city" value="{{ form.city or '' }}" required>
+        </div>
+        <div class="field">
+          <label for="price_per_night">Price / night (Rs)</label>
+          <input id="price_per_night" type="number" name="price_per_night" min="0" step="1" value="{{ form.price_per_night or '' }}" required>
+        </div>
+        <div class="field field-full">
+          <label for="address">Address</label>
+          <input id="address" type="text" name="address" value="{{ form.address or '' }}">
+        </div>
+        <div class="field field-full">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" placeholder="What makes it worth booking?">{{ form.description or '' }}</textarea>
+        </div>
+        <div class="field field-full">
+          <label for="image_url">Image URL</label>
+          <input id="image_url" type="url" name="image_url" placeholder="https://example.com/photo.jpg" value="{{ form.image_url or '' }}">
+        </div>
+      </div>
+
+      <h3 style="margin-top:1.8rem;">Room types</h3>
+      <p class="text-muted" style="margin-top:-0.4rem;">Optional — add as many as you like.</p>
+
+      <div id="room-rows">
+        <div class="repeat-row">
+          <input type="text" name="room_type[]" placeholder="Room type (e.g. Deluxe)">
+          <input type="number" name="room_price[]" placeholder="Price">
+          <button type="button" data-repeat-remove class="repeat-remove" aria-label="Remove row">✕</button>
+        </div>
+      </div>
+      <button type="button" class="btn btn-ghost btn-sm repeat-add" data-repeat-add="room-row-template" data-repeat-target="#room-rows">+ Add another room type</button>
+
+      <template id="room-row-template">
+        <div class="repeat-row">
+          <input type="text" name="room_type[]" placeholder="Room type (e.g. Deluxe)">
+          <input type="number" name="room_price[]" placeholder="Price">
+          <button type="button" data-repeat-remove class="repeat-remove" aria-label="Remove row">✕</button>
+        </div>
+      </template>
+
+      <button type="submit" class="btn btn-primary" style="margin-top:1.8rem;">Publish hotel</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

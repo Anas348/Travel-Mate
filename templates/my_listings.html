@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}My listings — TravelMate{% endblock %}
+
+{% block content %}
+<section class="section container" style="padding-top:2.5rem;">
+  <h1 style="font-size:1.9rem;">My listings</h1>
+
+  <h3 style="margin-top:1.8rem;">Hotels</h3>
+  {% if hotels %}
+    {% for hotel in hotels %}
+    <div class="listing-row">
+      <div>
+        <strong>{{ hotel.name }}</strong>
+        <p class="meta">{{ hotel.city }} · Rs {{ "%.0f"|format(hotel.price_per_night) }}/night</p>
+      </div>
+      <div class="listing-actions">
+        <a href="{{ url_for('hotel_detail', hotel_id=hotel.id) }}" class="btn btn-ghost btn-sm">View</a>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="text-muted">You haven't added a hotel yet. <a href="{{ url_for('add_hotel') }}">Add one</a>.</p>
+  {% endif %}
+
+  <h3 style="margin-top:2.2rem;">Destinations</h3>
+  {% if destinations %}
+    {% for d in destinations %}
+    <div class="listing-row">
+      <div>
+        <strong>{{ d.name }}</strong>
+        <p class="meta">{{ d.city }}</p>
+      </div>
+      <div class="listing-actions">
+        <a href="{{ url_for('destination_detail', destination_id=d.id) }}" class="btn btn-ghost btn-sm">View</a>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="text-muted">You haven't added a destination yet. <a href="{{ url_for('add_destination') }}">Add one</a>.</p>
+  {% endif %}
+</section>
+{% endblock %}

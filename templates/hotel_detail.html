@@ -1,114 +1,115 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Hotel Details</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+{% from "_macros.html" import contour %}
+{% block title %}{{ hotel.name }} — TravelMate{% endblock %}
 
-<!-- NAVBAR -->
-<div class="navbar">
-    <div class="nav-center">
-        <h2 class="logo">TravelMate ✈️</h2>
+{% block content %}
+
+<section class="hotel-hero" style="{% if hotel.image_url %}background-image:url('{{ hotel.image_url }}'); background-size:cover; background-position:center;{% else %}background:{{ hotel.city|city_gradient }};{% endif %}">
+  <div class="container hotel-hero-top">
+    <div>
+      <h1>{{ hotel.name }}</h1>
+      <p class="meta">📍 {{ hotel.address }}, {{ hotel.city }} &nbsp;·&nbsp; ★ {{ hotel.average_rating }} ({{ hotel.reviews|length }} review{{ 's' if hotel.reviews|length != 1 }})</p>
+      {% if hotel.description %}<p style="color:rgba(255,255,255,0.9); max-width:60ch; margin-top:0.8rem;">{{ hotel.description }}</p>{% endif %}
+
+      {% if hotel.amenities %}
+      <div class="amenity-list">
+        {% for a in hotel.amenities %}<span class="amenity-pill">{{ a.name }}</span>{% endfor %}
+      </div>
+      {% endif %}
     </div>
 
-    <div class="nav-right">
-        <a href="/">Home</a>
-        <a href="/destinations">Destinations</a>
-        <a href="/favourites">Favourites ❤️</a>
-        <a href="/login">Login</a>
-    </div>
-</div>
-
-<!-- MAIN CONTAINER -->
-<div class="container">
-
-    <!-- HOTEL HEADER -->
-    <div class="hotel-header">
-        <h1>{{ hotel.name }}</h1>
-        <p class="hotel-address">📍 {{ hotel.address }}</p>
-        <p class="hotel-rating">⭐ {{ hotel.rating }}</p>
-
-        <!-- ❤️ Favourite Button -->
-        <form action="/favourite" method="POST">
-            <input type="hidden" name="hotel_id" value="{{ hotel.hotel_id }}">
-            <button type="submit" class="fav-btn">❤️ Add to Favourites</button>
-        </form>
-    </div>
-
-    <!-- ROOMS -->
-    <h2 class="section-title">Available Rooms 🛏️</h2>
-
-    <div class="card-container">
-        {% for room in rooms %}
-        <div class="card">
-            <p><b>{{ room.room_type }}</b></p>
-            <p>💰 Rs {{ room.price }}</p>
-        </div>
-        {% endfor %}
-    </div>
-
-    <!-- ATTRACTIONS -->
-    <h2 class="section-title">Nearby Attractions 🌍</h2>
-
-    <div class="card-container">
-        {% if attractions %}
-            {% for place in attractions %}
-            <div class="card">
-                <p><b>{{ place.name }}</b></p>
-                <p>{{ place.description }}</p>
-                <p>📍 {{ place.location }}</p>
-            </div>
-            {% endfor %}
-        {% else %}
-            <p class="empty-msg">No attractions available for this area</p>
-        {% endif %}
-    </div>
-
-    <!-- REVIEWS -->
-    <h2 class="section-title">Guest Reviews 💬</h2>
-
-    <div class="review-container">
-        {% for review in reviews %}
-
-        <div class="review-card">
-            <div class="review-card">
-
-    <div class="review-header">
-        <h4>{{ review.name }}</h4>
-        <span>⭐ {{ review.rating }}/5</span>
-    </div>
-
-    <p class="review-text">{{ review.comment }}</p>
-
-    <a href="/edit_review/{{ review.review_id }}" class="edit-btn">
-        Edit ✏️
-    </a>
-
-</div>
-            <div class="review-header">
-                <h4>{{ review.name }}</h4>
-                <span>⭐ {{ review.rating }}/5</span>
-            </div>
-            <p class="review-text">{{ review.comment }}</p>
-        </div>
-        {% endfor %}
-    </div>
-
-    <!-- ADD REVIEW -->
-    <h3 class="section-title">Leave a Review ✍️</h3>
-
-    <form action="/review" method="POST" class="review-form">
-        <input type="hidden" name="hotel_id" value="{{ hotel.hotel_id }}">
-        
-        <input type="number" name="rating" min="1" max="5" placeholder="Rating (1-5)" required>
-        
-        <textarea name="comment" placeholder="Share your experience..." required></textarea>
-        
-        <button type="submit">Submit Review</button>
+    {% if current_user %}
+    <form action="{{ url_for('favourite') }}" method="POST">
+      <input type="hidden" name="hotel_id" value="{{ hotel.id }}">
+      <button type="submit" class="btn {{ 'btn-primary' if not is_favourite else 'btn-outline' }}">
+        {{ '♥ Saved to favourites' if is_favourite else '♡ Add to favourites' }}
+      </button>
     </form>
+    {% else %}
+    <a href="{{ url_for('login', next=request.path) }}" class="btn btn-outline">Log in to save</a>
+    {% endif %}
+  </div>
+</section>
 
-</div>
+{{ contour() }}
 
-</body>
-</html>
+<section class="section container" style="padding-top:1.5rem;">
+  <h2 class="section-tight">Available rooms</h2>
+  {% if rooms %}
+  <div class="room-grid">
+    {% for room in rooms %}
+    <div class="room-card">
+      <strong>{{ room.room_type }}</strong>
+      <p class="room-price">Rs {{ "%.0f"|format(room.price) }} / night</p>
+      <span class="badge">{{ 'Available' if room.availability_status else 'Booked' }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-muted">No room types have been listed for this hotel yet.</p>
+  {% endif %}
+</section>
+
+<section class="section on-paper-dim">
+  <div class="container">
+    <h2 class="section-tight">Nearby attractions</h2>
+    {% if attractions %}
+    <div class="attraction-grid">
+      {% for place in attractions %}
+      <div class="attraction-card">
+        <strong>{{ place.name }}</strong>
+        <p class="text-muted" style="margin:0.3rem 0 0;">{{ place.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-muted">No attractions have been mapped near {{ hotel.city }} yet.</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section container">
+  <h2 class="section-tight">Guest reviews</h2>
+
+  {% if reviews %}
+  <div class="review-list" style="margin-bottom:2.2rem;">
+    {% for review in reviews %}
+    <div class="review-card">
+      <div class="review-head">
+        <strong>{{ review.author.name }}</strong>
+        <span class="review-stars">★ {{ review.rating }}/5</span>
+      </div>
+      <p style="margin:0;">{{ review.comment }}</p>
+      <div class="row" style="justify-content:space-between; margin-top:0.5rem;">
+        <span class="review-date">{{ review.review_date }}</span>
+        {% if current_user and (current_user.id == review.user_id or current_user.is_admin) %}
+        <a href="{{ url_for('edit_review', review_id=review.id) }}" class="btn btn-ghost btn-sm">Edit</a>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-muted" style="margin-bottom:2rem;">No reviews yet — be the first to share how your stay went.</p>
+  {% endif %}
+
+  {% if current_user %}
+  <h3>Leave a review</h3>
+  <form action="{{ url_for('review') }}" method="POST" class="review-form">
+    <input type="hidden" name="hotel_id" value="{{ hotel.id }}">
+    <div class="field rating-input">
+      <label for="rating">Rating (1–5)</label>
+      <input id="rating" type="number" name="rating" min="1" max="5" required>
+    </div>
+    <div class="field">
+      <label for="comment">Your experience</label>
+      <textarea id="comment" name="comment" placeholder="Share what stood out…" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Submit review</button>
+  </form>
+  {% else %}
+  <p><a href="{{ url_for('login', next=request.path) }}">Log in</a> to leave a review.</p>
+  {% endif %}
+</section>
+
+{% endblock %}

@@ -1,47 +1,117 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>TravelMate</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+{% from "_macros.html" import contour %}
 
-<!-- NAVBAR -->
-<div class="navbar">
-    <div class="nav-left"></div>
+{% block content %}
 
-    <div class="nav-center"></div>
+<section class="hero">
+  <div class="container hero-inner">
+    <p class="hero-eyebrow">Hotels & destinations, from Lahore's old city to the Karakoram</p>
+    <h1>Plan the stay,<br>find the valley.</h1>
+    <p class="hero-sub">TravelMate is a database course project turned into a real hotel and
+      destination guide — search stays by city, budget, and rating, then read up on the
+      valleys, forts, and lakes worth the detour.</p>
 
-    <div class="nav-right">
-        <a href="/login">Login</a>s
-        <a href="/">Home</a>
-        <a href="/destinations">Destinations</a>
+    <div class="hero-stats">
+      <div><strong>{{ total_hotels }}</strong><span>Hotels listed</span></div>
+      <div><strong>{{ total_destinations }}</strong><span>Destinations</span></div>
+      <div><strong>PK</strong><span>Cities & valleys</span></div>
     </div>
-</div>
+  </div>
 
-<!-- HERO SECTION -->
-<div class="hero">
-    <div class="hero-overlay">
-        <h1 class="hero-title">TravelMate ✈️</h1>
-<p class="hero-sub">Your journey begins here</p>
-        <p>Find your next dreamy destination</p>
-        <a href="#search-section" class="scroll-btn">Start Exploring ↓</a>
-    </div>
-</div>
-
-<!-- SEARCH SECTION -->
-<div id="search-section" class="search-section">
+  <div class="container">
     <div class="search-card">
-        <h2>Find Your Stay ✈️</h2>
-
-        <form action="/hotels">
-            <input type="text" name="city" placeholder="Enter City">
-            <input type="number" name="price" placeholder="Max Price">
-            <input type="number" name="rating" placeholder="Min Rating (1-5)">
-            <button type="submit">Search</button>
-        </form>
+      <h2>Find your stay</h2>
+      <form class="search-form" action="{{ url_for('hotels') }}" method="get">
+        <div class="field">
+          <label for="city">City</label>
+          <input id="city" type="text" name="city" placeholder="Lahore, Hunza, Skardu…">
+        </div>
+        <div class="field">
+          <label for="price">Max price / night</label>
+          <input id="price" type="number" name="price" placeholder="Rs 20,000">
+        </div>
+        <div class="field">
+          <label for="rating">Min rating</label>
+          <input id="rating" type="number" name="rating" min="1" max="5" step="0.1" placeholder="4.0">
+        </div>
+        <button type="submit" class="btn btn-primary">Search hotels</button>
+      </form>
     </div>
-</div>
+  </div>
+</section>
 
-</body>
-</html>
+{{ contour() }}
+
+<section class="section container">
+  <div class="section-head">
+    <div>
+      <h2>Top-rated hotels</h2>
+      <p>The highest-rated stays on TravelMate right now.</p>
+    </div>
+    <a href="{{ url_for('hotels') }}" class="btn btn-ghost btn-sm">View all hotels</a>
+  </div>
+
+  {% if featured_hotels %}
+  <div class="hotel-grid">
+    {% for hotel in featured_hotels %}
+    <a href="{{ url_for('hotel_detail', hotel_id=hotel.id) }}" class="hotel-card">
+      <div class="hotel-card-media" style="{% if hotel.image_url %}background-image:url('{{ hotel.image_url }}'); background-size:cover; background-position:center;{% else %}background:{{ hotel.city|city_gradient }};{% endif %}">
+        <span class="rating-pill">★ {{ hotel.average_rating }}</span>
+      </div>
+      <div class="hotel-card-body">
+        <h3>{{ hotel.name }}</h3>
+        <p class="hotel-card-city">{{ hotel.city }}</p>
+        <p class="hotel-card-price">Rs {{ "%.0f"|format(hotel.price_per_night) }} <span>/ night</span></p>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <h3>No hotels yet</h3>
+    <p>Be the first to add one.</p>
+    <a href="{{ url_for('add_hotel') }}" class="btn btn-primary btn-sm">Add a hotel</a>
+  </div>
+  {% endif %}
+</section>
+
+<section class="section on-paper-dim">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>Destinations worth the drive</h2>
+        <p>Valleys, hill stations, and lakes travelers keep coming back to.</p>
+      </div>
+      <a href="{{ url_for('destinations') }}" class="btn btn-ghost btn-sm">All destinations</a>
+    </div>
+
+    {% if featured_destinations %}
+    <div class="dest-grid">
+      {% for d in featured_destinations %}
+      <a href="{{ url_for('destination_detail', destination_id=d.id) }}" class="dest-card" style="--tint: {% if d.image_url %}url('{{ d.image_url }}') center/cover no-repeat{% else %}{{ d.city|city_gradient }}{% endif %};">
+        <p class="dest-city">{{ d.city }}</p>
+        <h3>{{ d.name }}</h3>
+        <p>{{ d.description }}</p>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <h3>No destinations yet</h3>
+      <p>Add the first one travelers should know about.</p>
+      <a href="{{ url_for('add_destination') }}" class="btn btn-primary btn-sm">Add a destination</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section container center" style="padding-top:1rem;">
+  <h2>Been somewhere worth sharing?</h2>
+  <p class="center" style="margin: 0 auto 1.4rem;">List your hotel or add a destination guide — every entry on TravelMate was added by someone who'd been there.</p>
+  <div class="row" style="justify-content:center;">
+    <a href="{{ url_for('add_hotel') }}" class="btn btn-primary">Add a hotel</a>
+    <a href="{{ url_for('add_destination') }}" class="btn btn-ghost">Add a destination</a>
+  </div>
+</section>
+
+{% endblock %}

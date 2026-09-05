@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Add a destination — TravelMate{% endblock %}
+
+{% block content %}
+<section class="section container form-page" style="padding-top:2.5rem;">
+  <h1 style="font-size:1.9rem;">Add a destination</h1>
+  <p class="text-muted" style="margin-bottom:1.6rem;">Point other travelers to a valley, hill station, or lake worth visiting.</p>
+
+  <div class="form-card">
+    <form method="POST">
+      <div class="form-grid">
+        <div class="field field-full">
+          <label for="name">Destination name</label>
+          <input id="name" type="text" name="name" value="{{ form.name or '' }}" required>
+        </div>
+        <div class="field field-full">
+          <label for="city">City / area</label>
+          <input id="city" type="text" name="city" value="{{ form.city or '' }}" required>
+        </div>
+        <div class="field field-full">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" placeholder="What's it known for?">{{ form.description or '' }}</textarea>
+        </div>
+        <div class="field field-full">
+          <label for="image_url">Image URL</label>
+          <input id="image_url" type="url" name="image_url" placeholder="https://example.com/photo.jpg" value="{{ form.image_url or '' }}">
+        </div>
+        <div class="field field-full">
+          <label for="travel_tips">Travel tips</label>
+          <textarea id="travel_tips" name="travel_tips" placeholder="Best time to visit, how to get there…">{{ form.travel_tips or '' }}</textarea>
+        </div>
+      </div>
+
+      <h3 style="margin-top:1.8rem;">Attractions</h3>
+      <p class="text-muted" style="margin-top:-0.4rem;">Optional — name a few spots worth seeing there.</p>
+
+      <div id="attraction-rows">
+        <div class="repeat-row attraction-row">
+          <input type="text" name="attraction_name[]" placeholder="Attraction name">
+          <button type="button" data-repeat-remove class="repeat-remove" aria-label="Remove row">✕</button>
+        </div>
+      </div>
+      <button type="button" class="btn btn-ghost btn-sm repeat-add" data-repeat-add="attraction-row-template" data-repeat-target="#attraction-rows">+ Add another attraction</button>
+
+      <template id="attraction-row-template">
+        <div class="repeat-row attraction-row">
+          <input type="text" name="attraction_name[]" placeholder="Attraction name">
+          <button type="button" data-repeat-remove class="repeat-remove" aria-label="Remove row">✕</button>
+        </div>
+      </template>
+
+      <button type="submit" class="btn btn-primary" style="margin-top:1.8rem;">Publish destination</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

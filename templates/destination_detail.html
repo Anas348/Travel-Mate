@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% from "_macros.html" import contour %}
+{% block title %}{{ destination.name }} — TravelMate{% endblock %}
+
+{% block content %}
+<section class="hotel-hero" style="{% if destination.image_url %}background-image:url('{{ destination.image_url }}'); background-size:cover; background-position:center;{% else %}background:{{ destination.city|city_gradient }};{% endif %}">
+  <div class="container">
+    <h1>{{ destination.name }}</h1>
+    <p class="meta">📍 {{ destination.city }}</p>
+    <p style="color:rgba(255,255,255,0.9); max-width:60ch; margin-top:0.8rem;">{{ destination.description }}</p>
+    {% if destination.travel_tips %}
+    <p style="margin-top:0.6rem;"><strong style="color:#fff;">Travel tip:</strong> <span style="color:rgba(255,255,255,0.85);">{{ destination.travel_tips }}</span></p>
+    {% endif %}
+  </div>
+</section>
+
+{{ contour() }}
+
+<section class="section container">
+  <h2 class="section-tight">Attractions in {{ destination.city }}</h2>
+  {% if destination.attractions %}
+  <div class="attraction-grid">
+    {% for place in destination.attractions %}
+    <div class="attraction-card">
+      <strong>{{ place.name }}</strong>
+      <p class="text-muted" style="margin:0.3rem 0 0;">{{ place.description }}</p>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-muted">No attractions have been added for {{ destination.name }} yet.</p>
+  {% endif %}
+
+  <p style="margin-top:2rem;"><a href="{{ url_for('hotels', city=destination.city) }}" class="btn btn-teal btn-sm">See hotels in {{ destination.city }}</a></p>
+</section>
+{% endblock %}

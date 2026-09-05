@@ -1,0 +1,6 @@
+{% macro contour(on_ink=false) -%}
+<svg class="contour-divider {{ 'on-ink' if on_ink }}" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 30 C 150 12, 300 38, 450 22 S 750 6, 900 22 S 1150 34, 1200 20" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <path d="M0 20 C 150 4, 300 28, 450 12 S 750 2, 900 16 S 1150 24, 1200 10" fill="none" stroke="currentColor" stroke-width="1.5"/>
+</svg>
+{%- endmacro %}

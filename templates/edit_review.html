@@ -1,44 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Review</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Edit review — TravelMate{% endblock %}
 
-<div class="container">
+{% block content %}
+<section class="section container form-page" style="padding-top:2.5rem;">
+  <h1 style="font-size:1.7rem;">Edit your review</h1>
 
-    <h1>Edit Review ✏️</h1>
-
-    <form method="POST" class="review-form">
-
-        <input 
-            type="number" 
-            name="rating"
-            min="1"
-            max="5"
-            value="{{ review.rating }}"
-            required
-        >
-
-        <textarea 
-            name="comment"
-            required
-        >{{ review.comment }}</textarea>
-
-        <input 
-            type="hidden"
-            name="redirect_url"
-            value="{{ request.referrer }}"
-        >
-
-        <button type="submit">
-            Update Review
-        </button>
-
+  <div class="form-card">
+    <form method="POST" class="review-form" style="background:none; padding:0; max-width:none;">
+      <div class="field rating-input">
+        <label for="rating">Rating (1–5)</label>
+        <input id="rating" type="number" name="rating" min="1" max="5" value="{{ review.rating }}" required>
+      </div>
+      <div class="field">
+        <label for="comment">Comment</label>
+        <textarea id="comment" name="comment" required>{{ review.comment }}</textarea>
+      </div>
+      <input type="hidden" name="redirect_url" value="{{ request.referrer or url_for('hotel_detail', hotel_id=review.hotel_id) }}">
+      <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Update review</button>
     </form>
-
-</div>
-
-</body>
-</html>
+  </div>
+</section>
+{% endblock %}
